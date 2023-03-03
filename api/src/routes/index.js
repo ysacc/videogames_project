@@ -2,7 +2,6 @@ const { Router } = require('express');
 const { getAllGames } = require('../controllers/getAllGames');
 const { getAllGenres } = require('../controllers/getAllGenres');
 const { getGameById } = require('../controllers/getGameById');
-const { getGameByName } = require('../controllers/getGameByName');
 const { postNewGame } = require('../controllers/postNewGame');
 const { Videogame, Genres } = require('../db');
 const {API_KEY} = process.env;
@@ -17,9 +16,7 @@ const router = Router();
 
 router.get('/videogames',getAllGames); 
 
-router.get('/videogames/:idVideogame', getGameById);
-
-router.get('/videogames/name?', getGameByName);
+router.get('/videogames/:id', getGameById);
 
 router.post('/videogames', postNewGame);
 

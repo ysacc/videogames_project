@@ -1,28 +1,35 @@
-const { Genres } = require("../models/Genres");
+const { Genres } = require("../db")
+const {API_KEY} = process.env;
+const axios = require("axios");
 
 const getAllGenres = async(req, res)=>{
     try {
-        let genres = [];
+        let allGenres = [];
     
         // Verificar si hay géneros en la base de datos
         const dbGenres = await Genres.findAll();
     
         if (dbGenres.length > 0) {
-            genres = dbGenres.map(genre => genre.name);
+            allGenres = dbGenres.map(genre => genre.name);
         } else {
         // Si no hay géneros en la base de datos, obtenerlos de la API y guardarlos en la base de datos
-        const response = await axios.get(`https://api.rawg.io/api/genres?api_key=${API_KEY}`);
-        genres = response.data.results.map(result => result.name);
+        const response = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`);
+        allGenres = response.data.results.map(genre => {
+            return{
+                name:genre.name,
+                id: genre.id
+            }
+            
+        });
+        console.log("aca comienza " , allGenres)
 
-        await Promise.all(
-            genres.map(name => Genres.create({ name }))
-        );
+        allGenres.map(genre => Genres.create({ name:genre.name,id:genre.id }))
         }
     
-        return res.status(200).json(genres);
+        return res.status(200).json(allGenres);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Ocurrió un error al obtener los géneros' });
+        res.status(400).json({ message: 'Ocurrió un error al obtener los géneros' });
     }
 }
 

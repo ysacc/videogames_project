@@ -5,7 +5,7 @@ const {API_KEY} = process.env;
 const getGameById = async (req,res)=>{
     try {
         const { id } = req.params;
-        const response = await axios(`https://api.rawg.io/api/games/${id}?api_key=${API_KEY}`);
+        const response = await axios(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`);
         const data = response.data
         const videogameById = {
             id: data.id,

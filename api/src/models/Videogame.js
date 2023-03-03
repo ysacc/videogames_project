@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     },
-    releaseDate: {
+    released: {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
