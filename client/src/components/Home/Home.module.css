@@ -1,0 +1,12 @@
+.body{
+    background: rgba(35, 185, 84, 0.26);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(1.8px);
+    -webkit-backdrop-filter: blur(1.8px);
+    border: 1px solid rgba(35, 185, 84, 0.93);
+    text-align: right;
+    margin:15px 15px 13px 5px;
+    padding: auto;
+    font-weight:bold ;
+}

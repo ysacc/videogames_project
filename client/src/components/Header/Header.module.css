@@ -1,0 +1,19 @@
+img{
+    text-align: center;
+    align-items: center;
+    width: 30%;
+    height: 30%;
+    user-select: none;
+}
+@media (max-width: 800px) {
+    img {
+        width: 30%;
+        height: 30%;
+    }
+}
+div{
+    text-align: center;
+    padding-top: 10px 5px 5px 5px;
+    margin: 5px;
+    user-select: none;
+}

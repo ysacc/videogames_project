@@ -1,0 +1,99 @@
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { getAllGames, setFilters, setOrder, setPage } from '../../redux/actions/actions';
+import VideoGameCard from './VideoGameCard';
+
+const HomePage = (props) => {
+    const { videoGames, filters, order, page, totalPages, getAllGames, setFilters, setOrder, setPage } = props;
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        getAllGames(page, filters, order, searchTerm);
+    }, [page, filters, order, searchTerm]);
+
+    const handleFilterChange = (event) => {
+        setFilters(event.target.value);
+        setPage(1);
+    };
+
+    const handleOrderChange = (event) => {
+        setOrder(event.target.value);
+        setPage(1);
+    };
+
+    const handlePrevPage = () => {
+        setPage(page - 1);
+    };
+
+    const handleNextPage = () => {
+        setPage(page + 1);
+    };
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+        setPage(1);
+        setSearchTerm(event.target.search.value);
+    };
+
+    return (
+        <div className="home-page">
+        <div className="search-bar">
+            <form onSubmit={handleSearch}>
+            <input type="text" name="search" placeholder="Buscar videojuego por nombre" />
+            <button type="submit">Buscar</button>
+            </form>
+        </div>
+        <div className="filters">
+            <label htmlFor="genre-filter">Filtrar por género:</label>
+            <select id="genre-filter" onChange={handleFilterChange} value={filters}>
+            <option value="">Todos los géneros</option>
+            <option value="action">Acción</option>
+            <option value="adventure">Aventura</option>
+            <option value="rpg">RPG</option>
+            <option value="strategy">Estrategia</option>
+            </select>
+            <label htmlFor="order-filter">Ordenar por:</label>
+            <select id="order-filter" onChange={handleOrderChange} value={order}>
+            <option value="">Ninguno</option>
+            <option value="asc">Alfabético ascendente</option>
+            <option value="desc">Alfabético descendente</option>
+            <option value="rating">Rating</option>
+            </select>
+        </div>
+        <div className="video-games-list">
+            {videoGames.map((game) => (
+            <VideoGameCard key={game.id} game={game} />
+            ))}
+        </div>
+        <div className="pagination">
+            <button onClick={handlePrevPage} disabled={page === 1}>
+            Anterior
+            </button>
+            <span>{`${page} de ${totalPages}`}</span>
+            <button onClick={handleNextPage} disabled={page === totalPages}>
+            Siguiente
+            </button>
+        </div>
+        </div>
+    );
+    };
+
+    const mapStateToProps = (state) => {
+    return {
+        videoGames: state.videoGames,
+        filters: state.filters,
+        order: state.order,
+        page: state.page,
+        totalPages: state.totalPages,
+    };
+    };
+
+    const mapDispatchToProps = {
+    getVideoGames,
+    setFilters,
+    setOrder,
+    setPage,
+    };
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
